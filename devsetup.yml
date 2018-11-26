@@ -8,13 +8,11 @@
       failed_when: false
       changed_when: false
       when: ansible_os_family == 'Debian'
-    - name: Create users
+    - name: Create app user
       user:
-        name: "{{ item }}"
-        groups: users
+        name: aquaman
+        groups: users,gpio
         append: true
-      with_items:
-        - usr1
 
   vars:
     samba_netbios_name: SAMBA_TEST
@@ -41,13 +39,13 @@
 
     samba_map_to_guest: Never
     samba_users:
-      - name: root
+      - name: dev
         password: p@ssw0rd!
     samba_username_map:
-      - from: root
-        to: root
-        
-    samba_shares_root: /opt
+      - from: dev
+        to: aquaman
+    #the root + samba_shares\name dictates the full path
+    samba_shares_root: /home
     samba_shares:
       - name: AquaMan
         comment: 'App Dev'
@@ -58,3 +56,9 @@
         writable: 'yes'
   roles:
     - samba
+  
+  tasks:
+    - name: clone app down
+      git:
+        repo: https://github.com/jrich523/AquaMan.git
+        dest: /home/aquaman/core
