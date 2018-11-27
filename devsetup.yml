@@ -40,7 +40,7 @@
 
     samba_map_to_guest: Never
     samba_users:
-      - name: dev
+      - name: aquaman
         password: p@ssw0rd!
     samba_username_map:
       - from: dev
