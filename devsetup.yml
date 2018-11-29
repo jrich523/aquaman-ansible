@@ -67,3 +67,7 @@
         dest: /home/aquaman/core
       become: 'yes'
       become_user: aquaman
+    - name: Create AquaMan Service
+      template: src=service.j2 dest=/etc/systemd/system/aquaman.service
+    - name: Start AquaMan
+      systemd: state=started name=aquaman daemon_reload=yes
