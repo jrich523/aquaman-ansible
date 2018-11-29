@@ -55,10 +55,14 @@
         setype: public_content_t
         browseable: 'yes'
         writable: 'yes'
+    nodejs_version: 10.x
   roles:
     - samba
+    - nodejs
   tasks:
     - name: clone app down
       git:
         repo: https://github.com/jrich523/AquaMan.git
         dest: /home/aquaman/core
+      become: 'yes'
+      become_user: aquaman

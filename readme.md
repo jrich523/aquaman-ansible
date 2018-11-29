@@ -2,11 +2,26 @@
 
 run:
 
-curl http
-
+    curl https://raw.githubusercontent.com/jrich523/aquaman-ansible/master/setup.sh | bash
 
 should also have it configure
 . node/npm version
 . prod config? (roles/env?)
 . set debian password
 . platform config (npm bonescript/ or whatever for pi via global?)
+
+example service config info for groups/cap
+
+    DevicePolicy=closed
+    DeviceAllow=/dev/spi/flash r
+    DeviceAllow=/dev/spi/dsp rw
+    DeviceAllow=/dev/uio/io-irq rw
+
+    NoNewPrivileges=yes
+
+    CapabilityBoundingSet=
+    AmbientCapabilities=
+
+    User=dspd
+    Group=dspd
+    SupplementaryGroups=spi gpio uio i2c
