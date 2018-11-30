@@ -15,6 +15,12 @@
         groups: users,gpio
         append: true
         password: "$6$mysaltysalt$u2iN65Ch/LBvteyO.yVSqbgsuLpdB6HcET5qFrJIu1ZxTDrf/L88yDk4h1vXk1Sk7NWm5yRZKR.fNGK6CZmvr/"
+    - name: clone app down
+      git:
+        repo: https://github.com/jrich523/AquaMan.git
+        dest: /home/aquaman/core
+      become: 'yes'
+      become_user: aquaman
 
   vars:
     samba_netbios_name: SAMBA_TEST
@@ -63,12 +69,7 @@
     - samba
     - nodejs
   tasks:
-    - name: clone app down
-      git:
-        repo: https://github.com/jrich523/AquaMan.git
-        dest: /home/aquaman/core
-      become: 'yes'
-      become_user: aquaman
+      # different service files for prod vs dev (node vs nodemon)
     - name: Create AquaMan Service
       template: src=service.j2 dest=/etc/systemd/system/aquaman.service
     - name: Start AquaMan

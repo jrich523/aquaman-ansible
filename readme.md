@@ -2,7 +2,7 @@
 
 run:
 
-    curl https://raw.githubusercontent.com/jrich523/aquaman-ansible/master/setup.sh | bash
+    curl https://raw.githubusercontent.com/jrich523/aquaman-ansible/master/setup.sh | sudo bash
 
 should also have it configure
 . node/npm version
