@@ -63,7 +63,7 @@
         browseable: 'yes'
         writable: 'yes'
     nodejs_version: 10.x
-    nodejs_package_json_path: "/home/aquaman/core/package.json"
+    nodejs_package_json_path: "/home/aquaman/core/"
     nodejs_npm_global_packages: bonescript
   roles:
     - samba
