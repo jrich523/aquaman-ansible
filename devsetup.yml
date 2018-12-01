@@ -25,9 +25,9 @@
   vars:
     samba_netbios_name: SAMBA_TEST
     samba_server_string: 'Welcome to the test file server'
-    samba_workgroup: TESTGROUP
+    samba_workgroup: WORKGROUP
     
-    samba_global_include: global-include.conf
+    #samba_global_include: global-include.conf
 
     samba_load_homes: false
     samba_load_printers: false
