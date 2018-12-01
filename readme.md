@@ -4,6 +4,8 @@ run:
 
     curl https://raw.githubusercontent.com/jrich523/aquaman-ansible/master/setup.sh | sudo bash
 
+> NOTE: password prompt provides no text, enter password at hang
+
 should also have it configure
 . node/npm version
 . prod config? (roles/env?)

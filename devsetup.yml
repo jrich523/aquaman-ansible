@@ -49,9 +49,9 @@
     samba_users:
       - name: aquaman
         password: p@ssw0rd!
-    samba_username_map:
-      - from: dev
-        to: aquaman
+    #samba_username_map:
+    #  - from: dev
+    #    to: aquaman
     #the root + samba_shares\name dictates the full path
     samba_shares_root: /home
     samba_shares:
@@ -64,7 +64,7 @@
         writable: 'yes'
     nodejs_version: 10.x
     nodejs_package_json_path: "/home/aquaman/core/"
-    nodejs_npm_global_packages: bonescript
+    nodejs_npm_global_packages: [bonescript, nodemon]
   roles:
     - samba
     - nodejs
