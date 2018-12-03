@@ -7,7 +7,7 @@ After=network.target
 Environment=NODE_PORT=3001
 Type=simple
 User=aquaman
-ExecStart=/usr/bin/nodemon /home/aquaman/core/src/server/server.js
+ExecStart=/usr/local/lib/npm/bin/nodemon /home/aquaman/core/src/server/server.js
 Restart=on-failure
 
 [Install]

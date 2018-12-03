@@ -27,3 +27,5 @@ example service config info for groups/cap
     User=dspd
     Group=dspd
     SupplementaryGroups=spi gpio uio i2c
+
+there are a handful of things that are static that can be moved to variables. keep that in mind when refactoring
