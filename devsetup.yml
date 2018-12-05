@@ -2,42 +2,11 @@
 - hosts: 127.0.0.1
   connection: local
   become: true
-  pre_tasks:
-    - name: Ensure package database is up-to-date
-      apt:
-        update-cache: true
-      failed_when: false
-      changed_when: false
-      when: ansible_os_family == 'Debian'
-    - name: Create app user
-      user:
-        name: aquaman
-        groups: users,gpio
-        append: true
-        password: "$6$mysaltysalt$u2iN65Ch/LBvteyO.yVSqbgsuLpdB6HcET5qFrJIu1ZxTDrf/L88yDk4h1vXk1Sk7NWm5yRZKR.fNGK6CZmvr/"
-    - name: clone app down
-      git:
-        repo: https://github.com/jrich523/AquaMan.git
-        dest: /home/aquaman/core
-      become: 'yes'
-      become_user: aquaman
-    # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
-    - name: set max user watches for Nodemon (dev only)
-      lineinfile: >
-        create=yes
-        dest=/etc/sysctl.d/60-user.conf
-        group=root
-        line="fs.inotify.max_user_watches = 524288"
-        mode="0644"
-        owner=root
-        regexp="^fs.inotify.max_user_watches"
-        state=present
-    - name: Restart systemd
-      service:
-        name: systemd-sysctl
-        state: restarted
-
   vars:
+
+    username: aquaman
+    appPath: "/home/{{username}}/core"
+    
     samba_netbios_name: SAMBA_TEST
     samba_server_string: 'Welcome to the test file server'
     samba_workgroup: WORKGROUP
@@ -62,7 +31,7 @@
 
     samba_map_to_guest: Never
     samba_users:
-      - name: aquaman
+      - name: {{username}}
         password: p@ssw0rd!
     #samba_username_map:
     #  - from: dev
@@ -70,7 +39,7 @@
     #the root + samba_shares\name dictates the full path
     samba_shares_root: /home
     samba_shares:
-      - name: aquaman
+      - name: {{username}}
         comment: 'App Dev'
         public: 'yes'
         #group: root
@@ -78,8 +47,42 @@
         browseable: 'yes'
         writable: 'yes'
     nodejs_version: 10.x
-    nodejs_package_json_path: "/home/aquaman/core/"
+    nodejs_package_json_path: {{appPath}}
     nodejs_npm_global_packages: [bonescript, nodemon]
+  pre_tasks:
+    - name: Ensure package database is up-to-date
+      apt:
+        update-cache: true
+      failed_when: false
+      changed_when: false
+      when: ansible_os_family == 'Debian'
+    - name: Create app user
+      user:
+        name: {{username}}
+        groups: users,gpio
+        append: true
+        password: "$6$mysaltysalt$u2iN65Ch/LBvteyO.yVSqbgsuLpdB6HcET5qFrJIu1ZxTDrf/L88yDk4h1vXk1Sk7NWm5yRZKR.fNGK6CZmvr/"
+    - name: clone app down
+      git:
+        repo: https://github.com/jrich523/AquaMan.git
+        dest: {{appPath}}
+      become: 'yes'
+      become_user: {{username}}
+    # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+    - name: set max user watches for Nodemon (dev only)
+      lineinfile: >
+        create=yes
+        dest=/etc/sysctl.d/60-user.conf
+        group=root
+        line="fs.inotify.max_user_watches = 524288"
+        mode="0644"
+        owner=root
+        regexp="^fs.inotify.max_user_watches"
+        state=present
+    - name: Restart systemd
+      service:
+        name: systemd-sysctl
+        state: restarted
   roles:
     - samba
     - nodejs
