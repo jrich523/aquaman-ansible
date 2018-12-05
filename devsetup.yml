@@ -31,7 +31,7 @@
 
     samba_map_to_guest: Never
     samba_users:
-      - name: {{username}}
+      - name: "{{username}}"
         password: p@ssw0rd!
     #samba_username_map:
     #  - from: dev
@@ -39,7 +39,7 @@
     #the root + samba_shares\name dictates the full path
     samba_shares_root: /home
     samba_shares:
-      - name: {{username}}
+      - name: "{{username}}"
         comment: 'App Dev'
         public: 'yes'
         #group: root
@@ -47,7 +47,7 @@
         browseable: 'yes'
         writable: 'yes'
     nodejs_version: 10.x
-    nodejs_package_json_path: {{appPath}}
+    nodejs_package_json_path: "{{appPath}}"
     nodejs_npm_global_packages: [bonescript, nodemon]
   pre_tasks:
     - name: Ensure package database is up-to-date
@@ -58,16 +58,16 @@
       when: ansible_os_family == 'Debian'
     - name: Create app user
       user:
-        name: {{username}}
+        name: "{{username}}"
         groups: users,gpio
         append: true
         password: "$6$mysaltysalt$u2iN65Ch/LBvteyO.yVSqbgsuLpdB6HcET5qFrJIu1ZxTDrf/L88yDk4h1vXk1Sk7NWm5yRZKR.fNGK6CZmvr/"
     - name: clone app down
       git:
         repo: https://github.com/jrich523/AquaMan.git
-        dest: {{appPath}}
+        dest: "{{appPath}}"
       become: 'yes'
-      become_user: {{username}}
+      become_user: "{{username}}"
     # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
     - name: set max user watches for Nodemon (dev only)
       lineinfile: >
