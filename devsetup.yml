@@ -21,6 +21,21 @@
         dest: /home/aquaman/core
       become: 'yes'
       become_user: aquaman
+    # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+    - name: set max user watches for Nodemon (dev only)
+      lineinfile: >
+        create=yes
+        dest=/etc/sysctl.d/60-user.conf
+        group=root
+        line="fs.inotify.max_user_watches = 524288"
+        mode="0644"
+        owner=root
+        regexp="^fs.inotify.max_user_watches"
+        state=present
+    - name: Restart systemd
+      service:
+        name: systemd-sysctl
+        state: restarted
 
   vars:
     samba_netbios_name: SAMBA_TEST
