@@ -4,7 +4,9 @@ Documentation=https://example.com
 After=network.target
 
 [Service]
-Environment=NODE_PORT=3001
+Environment=PATH={{npm_config_prefix}}/bin:$PATH
+Environment=NPM_CONFIG_PREFIX={{npm_config_prefix}}
+Environment=NODE_PATH=$NODE_PATH:{{npm_config_prefix}}/lib/node_modules
 Type=simple
 User=aquaman
 ExecStart={{npm_config_prefix}}/bin/nodemon /home/aquaman/core/src/server/server.js
