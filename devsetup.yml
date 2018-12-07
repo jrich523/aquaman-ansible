@@ -79,6 +79,7 @@
         owner=root
         regexp="^fs.inotify.max_user_watches"
         state=present
+      tags: never
     - name: Restart systemd
       service:
         name: systemd-sysctl
